@@ -14,6 +14,7 @@ public enum CreditCardError {
     RESOURCE_INFORMATION_NOT_FOUND(100, "Recurso Información Personal no encontrado."),
     RESOURCE_ERROR_TYPE_ID(1, "No corresponde un tipo de identificación valido: ");
 
+
     private final Integer code;
     private final String message;
 

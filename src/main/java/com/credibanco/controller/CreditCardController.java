@@ -18,17 +18,14 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @Validated
 @RequestMapping("/v1/creditbank")
-@CrossOrigin(origins = "*", methods = { RequestMethod.GET })
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST })
 @Slf4j
 public class CreditCardController {
-
     private CreditCardService cardService;
-
     @PostMapping(value ="/create",consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreditCardDto> createPatientStatus(@Valid @RequestBody CreditCard creditCard)
+    public ResponseEntity<CreditCardDto> create(@Valid @RequestBody CreditCard creditCard)
             throws CreditCardException {
-        cardService.create(creditCard);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return new ResponseEntity<CreditCardDto>(cardService.create(creditCard),HttpStatus.CREATED);
     }
 }

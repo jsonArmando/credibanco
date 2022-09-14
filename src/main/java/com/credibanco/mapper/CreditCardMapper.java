@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface CreditCardMapper {
     @Mapping(target = "numberValidation", source = "numberValidation")
-    @Mapping(target = "numberCard", source = "numberCard")
     CreditCardDto toResponse(CreditCard creditCard);
+    @Mapping(target = "numberValidation", source = "numberValidation")
+    CreditCardDto toSave(CreditCard creditCard);
 }

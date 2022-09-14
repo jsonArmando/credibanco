@@ -11,8 +11,8 @@ import java.io.Serializable;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CreditCardDto implements Serializable {
-    private Integer code;
+    private String code;
     private String message;
     private Integer numberValidation;
-    private Integer numberCard;
+    private String numberCard;
 }
