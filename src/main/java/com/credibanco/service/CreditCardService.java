@@ -1,7 +1,9 @@
 package com.credibanco.service;
 
 import com.credibanco.dto.CreditCardDto;
+import com.credibanco.dto.TransactionDto;
 import com.credibanco.entities.CreditCard;
+import com.credibanco.entities.Transaction;
 import com.credibanco.exception.CreditCardException;
 
 import java.util.List;
@@ -14,6 +16,5 @@ public interface CreditCardService {
     List<CreditCard> findByNumberCard(Long numberCard) throws CreditCardException;
 
     void delete(Long numberCard, Integer numberValidation)throws CreditCardException;
-
-
+    TransactionDto create(Transaction transaction) throws CreditCardException;
 }

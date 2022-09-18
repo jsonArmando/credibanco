@@ -11,8 +11,10 @@ public enum CreditCardError {
     BAD_REQUEST_INVALID_ARGUMENTS(1,"Error de Validacion. Detalle en el campo 'errors'."),
     BAD_REQUEST_INVALID_PARAMETERS(2, "Falta parametro requerido."),
     ENDPOINT_NOT_FOUND(3, "Endpoint no encontrado."),
-    RESOURCE_INFORMATION_NOT_FOUND(100, "Recurso Información Tarjeta no encontrada no encontrado."),
-    RESOURCE_ERROR_TYPE_ID(1, "No corresponde un tipo de identificación valido: ");
+    RESOURCE_INFORMATION_NOT_FOUND(100, "Recurso Información Tarjeta no encontrada ."),
+    RESOURCE_ERROR_TYPE_ID(1, "No corresponde un tipo de identificación valido: "),
+    TARJETA_NOT_ENROLADA(101, "Tarjeta no Enrolada."),
+    TARJETA_DUPLICADA(102, "Tarjeta duplicada informe al administrador.");
 
 
     private final Integer code;

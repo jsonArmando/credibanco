@@ -1,7 +1,9 @@
 package com.credibanco.controller;
 
 import com.credibanco.dto.CreditCardDto;
+import com.credibanco.dto.TransactionDto;
 import com.credibanco.entities.CreditCard;
+import com.credibanco.entities.Transaction;
 import com.credibanco.exception.CreditCardException;
 import com.credibanco.service.CreditCardService;
 import io.swagger.annotations.Api;
@@ -51,5 +53,11 @@ public class CreditCardController {
     public void delete(@PathVariable("numberCard") Long numberCard,Integer numberValidation)
             throws CreditCardException {
             cardService.delete(numberCard,numberValidation);
+    }
+
+    @PostMapping(value ="/transaction/create",consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TransactionDto> createTransaction(@Valid @RequestBody Transaction transaction) throws CreditCardException {
+        return new ResponseEntity<TransactionDto>(cardService.create(transaction),HttpStatus.CREATED);
     }
 }
