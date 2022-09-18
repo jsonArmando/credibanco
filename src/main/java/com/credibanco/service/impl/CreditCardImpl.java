@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +49,47 @@ public class CreditCardImpl implements CreditCardService {
 
         }
         return creditDto;
+    }
+
+    @Override
+    public CreditCardDto findByNumberCardAndNumberValidation(Long numberCard, Integer numberValidation) throws CreditCardException {
+        log.debug("create (create findByNumberCardAndNumberValidation)" + numberCard+ " " +numberValidation);
+        var creditDto = new CreditCardDto();
+
+        var creditCard = creditCardRepository.findByNumberCardAndNumberValidation(numberCard, numberValidation);
+
+        if (creditCard==null) {
+            creditDto.setCode(Constants.FAILED_NOT_EXIST.getCode());
+            creditDto.setMessage(Constants.FAILED_NOT_EXIST.getMessage());
+        }else{
+            creditCard.setStatus(Constants.ENROLDADA.getMessage());
+
+            creditCardRepository.save(creditCard);
+
+            creditDto = creditCardMapper.toSave(creditCard);
+            creditDto.setCode(Constants.SUCCESS.getCode());
+            creditDto.setMessage(Constants.SUCCESS.getMessage());
+        }
+        creditDto.setNumberValidation(numberValidation);
+        creditDto.setNumberCard(Utils.getReplaceChar(numberCard.toString()));
+        return creditDto;
+    }
+
+    @Override
+    public List<CreditCard> findByNumberCard(Long numberCard) throws CreditCardException {
+        if(numberCard==null){
+            throw new CreditCardException(CreditCardError.RESOURCE_INFORMATION_NOT_FOUND);
+        }
+        return  creditCardRepository.findByNumberCard(numberCard);
+    }
+
+    @Override
+    public void delete(Long numberCard, Integer numberValidation) throws CreditCardException {
+        var creditCard = creditCardRepository.findByNumberCardAndNumberValidation(numberCard, numberValidation);
+        if(creditCard==null){
+            throw new CreditCardException(CreditCardError.RESOURCE_INFORMATION_NOT_FOUND);
+        }
+        creditCardRepository.delete(creditCard);
     }
 }
 

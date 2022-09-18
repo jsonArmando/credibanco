@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface CreditCardRepository  extends CrudRepository<CreditCard, Integer> {
     List<CreditCard> findByNumberCard(Long numberCard);
+    CreditCard findByNumberCardAndNumberValidation(Long numberCard, Integer numberValidation);
 }

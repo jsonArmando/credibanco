@@ -1,6 +1,10 @@
 package com.credibanco.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Getter
@@ -8,8 +12,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "CREDIT_CARD")
-public class CreditCard {
+@Table(name = "TRANSACTION")
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_number")
@@ -18,14 +22,8 @@ public class CreditCard {
     private Integer numberValidation;
     @Column(name = "number_card")
     private Long numberCard;
-    @Column(name = "headline")
-    private String headline;
-    @Column(name = "identification_card")
-    private String identificationCard;
-    @Column(name = "type")
-    private String type;
-    @Column(name = "phone")
-    private Integer phone;
-    @Column(name ="status")
-    private String status;
+    @Column(name = "reference_number")
+    private Long referenceNumber;
+    @Column(name = "total_purchase")
+    private Double totalPurchase;
 }
