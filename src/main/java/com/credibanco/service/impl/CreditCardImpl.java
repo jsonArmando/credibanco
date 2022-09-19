@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -43,7 +44,7 @@ public class CreditCardImpl implements CreditCardService {
         var lstCreditCard = creditCardRepository.findByNumberCard(creditCard.getNumberCard());
 
         if(lstCreditCard.size()>0){
-            throw new CreditCardException(CreditCardError.UNEXPECTED_ERROR);
+            throw new CreditCardException(CreditCardError.TARJETA_DUPLICADA);
         }
 
         if (CollectionUtils.isEmpty(lstCreditCard)) {
@@ -91,7 +92,11 @@ public class CreditCardImpl implements CreditCardService {
         if(numberCard==null){
             throw new CreditCardException(CreditCardError.RESOURCE_INFORMATION_NOT_FOUND);
         }
-        return  creditCardRepository.findByNumberCard(numberCard);
+        var lst = creditCardRepository.findByNumberCard(numberCard);
+        if(lst.isEmpty()){
+            throw new CreditCardException(CreditCardError.RESOURCE_INFORMATION_NOT_FOUND);
+        }
+        return  lst;
     }
 
     @Override
@@ -115,8 +120,8 @@ public class CreditCardImpl implements CreditCardService {
         }
 
         if (CollectionUtils.isEmpty(lstCreditCard)) {
-            register.setCode(Constants.RECHAZADA.getCode());
-            register.setMessage(CreditCardError.TARJETA_NOT_ENROLADA.getMessage());
+            register.setCode(Integer.parseInt(Constants.RECHAZADA.getCode()));
+            register.setMessage(CreditCardError.TARJETA_NOT_EXISTE.getMessage());
             register.setTransactionStatus(Constants.RECHAZADA.getMessage());
             register.setReferenceNumber(reference.longValue());
             dtoRepository.save(register);
@@ -124,12 +129,13 @@ public class CreditCardImpl implements CreditCardService {
 
         }else{
             for(CreditCard card:lstCreditCard){
-                if(card.getStatus()==Constants.ENROLDADA.getMessage()){
+                if(card.getStatus().equals(Constants.ENROLDADA.getMessage())){
 
                     transaction.setNumberCard(card.getNumberCard());
                     transaction.setReferenceNumber(reference.longValue());
+                    transaction.setDate(new Date());
                     transactionRepository.save(transaction);
-                    register.setCode(Constants.COMPRA_EXITOSA.getCode());
+                    register.setCode(Integer.parseInt(Constants.COMPRA_EXITOSA.getCode()));
                     register.setMessage(Constants.COMPRA_EXITOSA.getMessage());
                     register.setTransactionStatus(Constants.APROBADA.getMessage());
                     register.setReferenceNumber(reference.longValue());
@@ -141,6 +147,26 @@ public class CreditCardImpl implements CreditCardService {
                     throw new CreditCardException(CreditCardError.TARJETA_NOT_ENROLADA);
                 }
             }
+        }
+        return dto;
+    }
+
+    @Override
+    public TransactionDto cancelTransaction(Long numberCard, Long referenceNumber) throws CreditCardException {
+        var transaction = transactionRepository.findByNumberCardAndReferenceNumber(numberCard,referenceNumber);
+        var dto = new TransactionDto();
+        if(transaction==null){
+            throw new CreditCardException(CreditCardError.REGISTRO_COMPRA);
+        }
+        long minute = Utils.getMinutes(transaction.getDate(), new Date());
+        dto.setReferenceNumber(transaction.getReferenceNumber());
+        if(minute<=5){
+            dto.setCode(Constants.CODE_ANSWER.getCode());
+            dto.setMessage(Constants.CODE_ANSWER.getMessage());
+            transactionRepository.delete(transaction);
+        }else{
+            dto.setCode(Constants.CANCEL_TRANSACTION.getCode());
+            dto.setMessage(Constants.CANCEL_TRANSACTION.getMessage());
         }
         return dto;
     }

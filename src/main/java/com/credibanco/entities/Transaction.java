@@ -6,13 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "TRANSACTION")
+@Table(name = "TRANSACTIONS")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,4 +27,6 @@ public class Transaction {
     private Double totalPurchase;
     @Column(name = "address")
     private String address;
+    @Column(name="date_register")
+    private Date date;
 }

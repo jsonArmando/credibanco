@@ -14,8 +14,9 @@ public enum CreditCardError {
     RESOURCE_INFORMATION_NOT_FOUND(100, "Recurso Información Tarjeta no encontrada ."),
     RESOURCE_ERROR_TYPE_ID(1, "No corresponde un tipo de identificación valido: "),
     TARJETA_NOT_ENROLADA(101, "Tarjeta no Enrolada."),
-    TARJETA_DUPLICADA(102, "Tarjeta duplicada informe al administrador.");
-
+    TARJETA_DUPLICADA(102, "Tarjeta duplicada informe al administrador."),
+    TARJETA_NOT_EXISTE(103, "Tarjeta no existe"),
+    REGISTRO_COMPRA(104, "Registro de la compra no Existe!!!");
 
     private final Integer code;
     private final String message;

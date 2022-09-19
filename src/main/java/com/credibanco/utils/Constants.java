@@ -15,7 +15,10 @@ public enum Constants {
     ENROLDADA("00", "Enrolada"),
     RECHAZADA("01","Rechazada"),
     COMPRA_EXITOSA("00","Compra Exitosa"),
-    APROBADA("10","Aprobada");
+    APROBADA("10","Aprobada"),
+    CODE_ANSWER("00","Compra anulada"),
+    NUMBER_INVALID("01","Número de referencia inválido"),
+    CANCEL_TRANSACTION("02","No se puede anular transacción");
     private final String code;
     private final String message;
 }

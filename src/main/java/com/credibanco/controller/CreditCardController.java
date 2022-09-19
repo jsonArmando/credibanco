@@ -50,7 +50,7 @@ public class CreditCardController {
 
     @DeleteMapping(value ="/delete/{numberCard}/{numberValidation}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable("numberCard") Long numberCard,Integer numberValidation)
+    public void delete(@PathVariable("numberCard") Long numberCard,@PathVariable("numberValidation")Integer numberValidation)
             throws CreditCardException {
             cardService.delete(numberCard,numberValidation);
     }
@@ -59,5 +59,13 @@ public class CreditCardController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TransactionDto> createTransaction(@Valid @RequestBody Transaction transaction) throws CreditCardException {
         return new ResponseEntity<TransactionDto>(cardService.create(transaction),HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value ="/transaction/delete/{numberCard}/{referenceNumber}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TransactionDto> cancelTransaction(@PathVariable("numberCard") Long numberCard,
+                                                            @PathVariable("referenceNumber")Long referenceNumber)
+            throws CreditCardException {
+        return new ResponseEntity<TransactionDto>(cardService.cancelTransaction(numberCard,referenceNumber),HttpStatus.ACCEPTED);
     }
 }

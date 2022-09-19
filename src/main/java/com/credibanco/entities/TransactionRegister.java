@@ -15,7 +15,7 @@ public class TransactionRegister implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_number")
-    private String code;
+    private Integer code;
     @Column(name = "message")
     private String message;
     @Column(name = "transaction_status")
